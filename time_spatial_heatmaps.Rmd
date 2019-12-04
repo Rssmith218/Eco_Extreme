@@ -1,0 +1,162 @@
+---
+  title: "Untitled"
+author: "Rachel Smith & Brandon Sansom"
+date: "Update on 12/04/2019"
+output: github_document
+---
+  
+  ```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, echo = F, message = F, error = F, warning = F)
+```
+
+### Exploratory plots of space/time variables: 
+
+```{r prepare}
+###install packages:
+library(tidyverse)
+library(readxl)
+library(magrittr)
+library(stringr)
+library(lubridate)
+library(here)
+
+
+EEdata <- read_excel(here::here("CleanedExtremeEventsData_8Nov2019.xlsx"), sheet = 1)
+
+###convert all spatial/temporal variables to factors
+
+EEdata$Sampling_Duration_After <- factor(EEdata$Sampling_Duration_After)
+EEdata$Sampling_Duration_Before <- factor(EEdata$Sampling_Duration_Before)
+EEdata$Sampling_Duration_During <- factor(EEdata$Sampling_Duration_During)
+EEdata$SamplingUnit_SpatialExtent <- factor(EEdata$SamplingUnit_SpatialExtent)
+EEdata$Study_SpatialExtent <- factor(EEdata$Study_SpatialExtent)
+EEdata$ProximateEvent_SpatialExtent <- factor(EEdata$ProximateEvent_SpatialExtent)
+EEdata$ProximateEvent_Duration <- factor(EEdata$ProximateEvent_Duration)
+
+
+
+
+###look at factor levels:
+#unique(EEdata$Sampling_Duration_After) ##years, months, none, weeks, single sample, days
+#unique(EEdata$Sampling_Duration_Before)##years, months, none, weeks, single sample, days
+#unique(EEdata$Sampling_Duration_During) #years, months, none, weeks, single sample, days, hours
+#unique(EEdata$SamplingUnit_SpatialExtent)##<1 sqm, >1000 sq m, 1-10 sq m, 10-100 sq m, 100-1000 sq m, Regional/Continent, undefined
+#unique(EEdata$Study_SpatialExtent)#<1 sqm, >1000 sq m, 1-10 sq m, 10-100 sq m, 100-1000 sq m, Regional/Continent, undefined
+#unique(EEdata$ProximateEvent_Duration)###days, hours, months, weeks, years; this is missing single sample and none
+#unique(EEdata$ProximateEvent_SpatialExtent)###<1 sqm, >1000 sqm, 10-100 sqm, 100-1000 sqm, Regional/Continent; this one is missing 1-10 sqm
+
+```
+
+#### Contingency tables:
+
+*Study Spatial Extent vs. Event Spatial Extent:*
+  
+  Here, rows are Study Spatial Extent and columns are Event Spatial extent.
+```{r spatial}
+
+###https://www.datacamp.com/community/tutorials/contingency-tables-r
+####here the rows are Study Spatial extent and and columns are Event Spatial extent
+###We can also turn these into proportions/do a chi square test
+
+spatial<- xtabs(~ Study_SpatialExtent + ProximateEvent_SpatialExtent, data = EEdata)
+spatial
+
+#table(EEdata$Study_SpatialExtent, EEdata$ProximateEvent_SpatialExtent)
+
+###rows and columns are not independent
+#chisq.test(EEdata$Study_SpatialExtent, EEdata$ProximateEvent_SpatialExtent)
+```
+
+*Sampling Unit Spatial Extent vs. Event Spatial Extent:*
+  
+  Here, rows are Sampling Unit Spatial Extent and columns are Event Spatial extent.
+
+```{r sample}
+sample<- xtabs(~ SamplingUnit_SpatialExtent + ProximateEvent_SpatialExtent, data = EEdata)
+sample
+
+
+#table(EEdata$SamplingUnit_SpatialExtent, EEdata$ProximateEvent_SpatialExtent)
+
+###rows and columns are not independent
+#chisq.test(EEdata$SamplingUnit_SpatialExtent, EEdata$ProximateEvent_SpatialExtent)
+```
+
+*Sampling Duration Before vs. Event Duration:*
+  
+  Here, rows are Sampling Duration Before and columns are Event Duration extent.
+
+```{r before}
+
+before1<- xtabs(~ Sampling_Duration_Before + ProximateEvent_Duration, data = EEdata)
+before1
+
+#before<- table(EEdata$Sampling_Duration_Before, EEdata$ProximateEvent_Duration)
+#before
+###rows and columns are not independent
+#chisq.test(EEdata$Sampling_Duration_Before, EEdata$ProximateEvent_Duration)
+```
+
+
+*Sampling Duration During vs. Event Duration:*
+  
+  Here, rows are Sampling Duration During and columns are Event Duration extent.
+
+```{r during}
+
+
+during1<- xtabs(~ Sampling_Duration_During + ProximateEvent_Duration, data = EEdata)
+during1
+
+#during<- table(EEdata$Sampling_Duration_During, EEdata$ProximateEvent_Duration)
+#during
+###rows and columns are not independent
+#chisq.test(EEdata$Sampling_Duration_During, EEdata$ProximateEvent_Duration)
+
+```
+
+
+*Sampling Duration After vs. Event Duration:*
+  
+  Here, rows are Sampling Duration After and columns are Event Duration extent.
+
+```{r after}
+
+after1<- xtabs(~ Sampling_Duration_After + ProximateEvent_Duration, data = EEdata)
+after1
+
+#after<-table(EEdata$Sampling_Duration_After, EEdata$ProximateEvent_Duration)
+#after
+###rows and columns are not independent
+#chisq.test(EEdata$Sampling_Duration_After, EEdata$ProximateEvent_Duration)
+```
+
+#### Heat Maps: 
+
+library(ggplot2)
+
+*Study Spatial Extent vs. Event Spatial Extent:*
+  ```{r sample1,  fig.width = 12, fig.height = 12}
+spatial_df <- as.data.frame(spatial)
+
+spatial_df$Study_SpatialExtent = factor(spatial_df$Study_SpatialExtent,levels(spatial_df$Study_SpatialExtent)[c(7,1,3:5,2,6)])
+spatial_df$ProximateEvent_SpatialExtent = factor(spatial_df$ProximateEvent_SpatialExtent,levels(spatial_df$ProximateEvent_SpatialExtent)[c(1,3,4,2,5)])
+
+ggplot(spatial_df, aes(Study_SpatialExtent, ProximateEvent_SpatialExtent)) +
+  geom_tile(aes(fill = Freq), colour = "black") +
+  scale_fill_gradient(low = "white", high = "steelblue")
+```
+
+*Sampling Unit Spatial Extent vs. Event Spatial Extent:*
+  ```{r sample1,  fig.width = 12, fig.height = 12}
+sample_df <- as.data.frame(sample)
+
+sample_df$SamplingUnit_SpatialExtent = factor(sample_df$SamplingUnit_SpatialExtent,levels(sample_df$SamplingUnit_SpatialExtent)[c(7,1,3:5,2,6)])
+sample_df$ProximateEvent_SpatialExtent = factor(sample_df$ProximateEvent_SpatialExtent,levels(sample_df$ProximateEvent_SpatialExtent)[c(1,3,4,2,5)])
+
+ggplot(sample_df, aes(SamplingUnit_SpatialExtent, ProximateEvent_SpatialExtent)) +
+  geom_tile(aes(fill = Freq), colour = "black") +
+  scale_fill_gradient(low = "white", high = "steelblue")
+```
+
+
