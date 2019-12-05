@@ -116,7 +116,9 @@ time.data$Sample.Scale <- factor(time.data$Sample.Scale, levels = c("Proximate.E
 ###ggplot
 time.plot<- ggplot(time.data, aes(x= Time.Scale, y =n , fill = Sample.Scale)) + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
-  geom_col(position = position_dodge2(width = 0.9, preserve = "single"))
+  geom_col(position = position_dodge2(width = 0.9, preserve = "single")) +
+  theme(legend.justification = c(0,1),
+        legend.position = c(0,1))
 time.plot
 
 ##Sample spatial scale:   
@@ -151,6 +153,12 @@ spatial.data$Spatial.Scale <- factor(spatial.data$Spatial.Scale, levels = c("und
 ####ggplot
 spatial.plot<- ggplot(spatial.data, aes(x= Spatial.Scale, y =n , fill = Sample.Scale)) + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
-  geom_col(position = position_dodge2(width = 0.9, preserve = "single"))
+  geom_col(position = position_dodge2(width = 0.9, preserve = "single")) +
+  theme(legend.justification = c(0,1),
+        legend.position = c(0,1))
 spatial.plot
+
+##combined plot
+{r sampling duration,  fig.width = 12, fig.height = 12}
+multiplot(time.plot, spatial.plot, cols = 2)
 ```
