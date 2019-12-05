@@ -102,24 +102,17 @@ EEdata$ProximateEvent_Duration <- factor(EEdata$ProximateEvent_Duration)
   
   Here, rows are Study Spatial Extent and columns are Event Spatial extent.
 ```{r spatial}
-
 ###https://www.datacamp.com/community/tutorials/contingency-tables-r
 ####here the rows are Study Spatial extent and and columns are Event Spatial extent
 ###We can also turn these into proportions/do a chi square test
-
 spatial<- xtabs(~ Study_SpatialExtent + ProximateEvent_SpatialExtent, data = EEdata)
 spatial
-
-spatial2<-prop.table(spatial)
-spatial2
-
+spatial_prop<-prop.table(spatial)
+spatial_prop
 #spatial1<-table(EEdata$Study_SpatialExtent, EEdata$ProximateEvent_SpatialExtent)
 #spatial2<-prop.table(table(EEdata$Study_SpatialExtent, EEdata$ProximateEvent_SpatialExtent))
-
 #rowPerc(spatial1)
-
 write.csv(spatial2, "spatial_extent_study.csv")
-
 ###rows and columns are not independent
 #chisq.test(EEdata$Study_SpatialExtent, EEdata$ProximateEvent_SpatialExtent)
 ```
@@ -131,16 +124,10 @@ write.csv(spatial2, "spatial_extent_study.csv")
 ```{r sample}
 sample<- xtabs(~ SamplingUnit_SpatialExtent + ProximateEvent_SpatialExtent, data = EEdata)
 sample
-
-sample1 <- prop.table(sample)
-
-sample1
-
-
+sample_prop <- prop.table(sample)
+sample_prop
 write.csv(sample1, "spatial_extent_sample.csv")
-
 #table(EEdata$SamplingUnit_SpatialExtent, EEdata$ProximateEvent_SpatialExtent)
-
 ###rows and columns are not independent
 #chisq.test(EEdata$SamplingUnit_SpatialExtent, EEdata$ProximateEvent_SpatialExtent)
 ```
@@ -150,16 +137,10 @@ write.csv(sample1, "spatial_extent_sample.csv")
   Here, rows are Sampling Duration Before and columns are Event Duration extent.
 
 ```{r before}
-
 before1<- xtabs(~ Sampling_Duration_Before + ProximateEvent_Duration, data = EEdata)
 before1
-
-
-before2<- prop.table(before1)
-
-
+before_prop<- prop.table(before1)
 write.csv(before2, "duration_before.csv")
-
 #before<- table(EEdata$Sampling_Duration_Before, EEdata$ProximateEvent_Duration)
 #before
 ###rows and columns are not independent
@@ -172,21 +153,14 @@ write.csv(before2, "duration_before.csv")
   Here, rows are Sampling Duration During and columns are Event Duration extent.
 
 ```{r during}
-
 during1<- xtabs(~ Sampling_Duration_During + ProximateEvent_Duration, data = EEdata)
 during1
-
-
-during2<- prop.table(during1)
-
-
+during_prop<- prop.table(during1)
 write.csv(during2, "duration_during.csv")
-
 #during<- table(EEdata$Sampling_Duration_During, EEdata$ProximateEvent_Duration)
 #during
 ###rows and columns are not independent
 #chisq.test(EEdata$Sampling_Duration_During, EEdata$ProximateEvent_Duration)
-
 ```
 
 
@@ -195,17 +169,10 @@ write.csv(during2, "duration_during.csv")
   Here, rows are Sampling Duration After and columns are Event Duration extent.
 
 ```{r after}
-
 after1<- xtabs(~ Sampling_Duration_After + ProximateEvent_Duration, data = EEdata)
 after1
-
-
-after2<- prop.table(after1)
-
-
+after_prop<- prop.table(after1)
 write.csv(after2, "duration_after.csv")
-
-
 #after<-table(EEdata$Sampling_Duration_After, EEdata$ProximateEvent_Duration)
 #after
 ###rows and columns are not independent
@@ -215,15 +182,16 @@ write.csv(after2, "duration_after.csv")
 
 #### Heat Maps: 
 *Study Spatial Extent vs. Event Spatial Extent - as a proportion:*
-  ```{r sample2,  fig.width = 12, fig.height = 12}
-##convert xtabs to data.frame, add in missing categories, convert back to xtabs, covert xtabs to dataframe for heat maps##
-spatial3 <- as.data.frame.matrix(spatial2, make.names = TRUE)
-spatial3 <- setDT(spatial3, keep.rownames = TRUE)[]
-spatial3$`undefined` <- 0
-spatial3$`1-10 sq m` <- 0
-spatial4 <- as.xtabs(spatial3)
 
-spatial_df1 <- as.data.frame(spatial4)
+```{r sample2,  fig.width = 12, fig.height = 12}
+##convert xtabs to data.frame, add in missing categories, convert back to xtabs, covert xtabs to dataframe for heat maps##
+spatial_1 <- as.data.frame.matrix(spatial_prop, make.names = TRUE)
+spatial_1 <- setDT(spatial_1, keep.rownames = TRUE)[]
+spatial_1$`undefined` <- 0
+spatial_1$`1-10 sq m` <- 0
+spatial_2 <- as.xtabs(spatial_1)
+
+spatial_df1 <- as.data.frame(spatial_2)
 colnames(spatial_df1) <- c("Study_SpatialExtent", "ProximateEvent_SpatialExtent", "Freq")
 spatial_df1$Study_SpatialExtent = factor(spatial_df1$Study_SpatialExtent,levels(spatial_df1$Study_SpatialExtent)[c(7,1,3:5,2,6)])
 spatial_df1$ProximateEvent_SpatialExtent = factor(spatial_df1$ProximateEvent_SpatialExtent,levels(spatial_df1$ProximateEvent_SpatialExtent)[c(6,1,7,3,4,2,5)])
@@ -234,15 +202,16 @@ ggplot(spatial_df1, aes(Study_SpatialExtent, ProximateEvent_SpatialExtent)) +
 ```
 
 *Sampling Unit Spatial Extent vs. Event Spatial Extent - as a proportion:*
-  ```{r sample2,  fig.width = 12, fig.height = 12}
+  
+```{r sample2,  fig.width = 12, fig.height = 12}
 ##convert xtabs to data.frame, add in missing categories, convert back to xtabs, covert xtabs to dataframe for heat maps##
-sample2 <- as.data.frame.matrix(sample1, make.names = TRUE)
-sample2 <- setDT(sample2, keep.rownames = TRUE)[]
-sample2$`undefined` <- 0
-sample2$`1-10 sq m` <- 0
-sample3 <- as.xtabs(sample2)
+sample_1 <- as.data.frame.matrix(sample_prop, make.names = TRUE)
+sample_1 <- setDT(sample_1, keep.rownames = TRUE)[]
+sample_1$`undefined` <- 0
+sample_1$`1-10 sq m` <- 0
+sample_2 <- as.xtabs(sample_1)
 
-sample_df1 <- as.data.frame(sample3)
+sample_df1 <- as.data.frame(sample_2)
 colnames(sample_df1) <- c("SamplingUnit_SpatialExtent", "ProximateEvent_SpatialExtent", "Freq")
 sample_df1$SamplingUnit_SpatialExtent = factor(sample_df1$SamplingUnit_SpatialExtent,levels(sample_df1$SamplingUnit_SpatialExtent)[c(7,1,3:5,2,6)])
 sample_df1$ProximateEvent_SpatialExtent = factor(sample_df1$ProximateEvent_SpatialExtent,levels(sample_df1$ProximateEvent_SpatialExtent)[c(6,1,7,3,4,2,5)])
@@ -251,6 +220,77 @@ ggplot(sample_df1, aes(SamplingUnit_SpatialExtent, ProximateEvent_SpatialExtent)
   geom_tile(aes(fill = Freq), colour = "black") +
   scale_fill_gradient(low = "white", high = "steelblue") + theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
+  
+*Sampling Duration Before vs. Event Duration - as a proportion:*
+  
+```{r sample2,  fig.width = 12, fig.height = 12}
+##convert xtabs to data.frame, add in missing categories, convert back to xtabs, covert xtabs to dataframe for heat maps##
+before_1 <- as.data.frame.matrix(before_prop, make.names = TRUE)
+before_1 <- setDT(before_1, keep.rownames = TRUE)[]
+before_1$`none` <- 0
+before_1$`single sample` <- 0
+
+before_1_hours <- data.frame("hours", 0,0,0,0,0,0,0)
+names(before_1_hours) <- c("rn", "days", "hours", "months", "weeks", "years", "none", "single sample")
+before_2 <- rbind(before_1, before_1_hours)
+
+before_3 <- as.xtabs(before_2)
+
+before_df1 <- as.data.frame(before_3)
+colnames(before_df1) <- c("Sampling_Duration_Before", "ProximateEvent_Duration", "Freq")
+before_df1$Sampling_Duration_Before = factor(before_df1$Sampling_Duration_Before,levels(before_df1$Sampling_Duration_Before)[c(3,4,7,1,5,2,6)])
+before_df1$ProximateEvent_Duration = factor(before_df1$ProximateEvent_Duration,levels(before_df1$ProximateEvent_Duration)[c(6,7,2,1,4,3,5)])
+
+ggplot(before_df1, aes(Sampling_Duration_Before, ProximateEvent_Duration)) +
+  geom_tile(aes(fill = Freq), colour = "black") +
+  scale_fill_gradient(low = "white", high = "steelblue") + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```  
+  
+*Sampling Duration During vs. Event Duration - as a proportion:*  
+  
+```{r sample2,  fig.width = 12, fig.height = 12}
+##convert xtabs to data.frame, add in missing categories, convert back to xtabs, covert xtabs to dataframe for heat maps##
+during_1 <- as.data.frame.matrix(during_prop, make.names = TRUE)
+during_1 <- setDT(during_1, keep.rownames = TRUE)[]
+during_1$`none` <- 0
+during_1$`single sample` <- 0
+
+during_2 <- as.xtabs(during_1)
+
+during_df1 <- as.data.frame(during_2)
+colnames(during_df1) <- c("Sampling_Duration_Before", "ProximateEvent_Duration", "Freq")
+during_df1$Sampling_Duration_Before = factor(during_df1$Sampling_Duration_Before,levels(during_df1$Sampling_Duration_Before)[c(4,5,2,1,6,3,7)])
+during_df1$ProximateEvent_Duration = factor(during_df1$ProximateEvent_Duration,levels(during_df1$ProximateEvent_Duration)[c(6,7,2,1,4,3,5)])
+
+ggplot(during_df1, aes(Sampling_Duration_Before, ProximateEvent_Duration)) +
+  geom_tile(aes(fill = Freq), colour = "black") +
+  scale_fill_gradient(low = "white", high = "steelblue") + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+``` 
+  
+*Sampling Duration After vs. Event Duration - as a proportion:*
+  
+```{r sample2,  fig.width = 12, fig.height = 12}
+##convert xtabs to data.frame, add in missing categories, convert back to xtabs, covert xtabs to dataframe for heat maps##
+after_1 <- as.data.frame.matrix(after_prop, make.names = TRUE)
+after_1 <- setDT(after_1, keep.rownames = TRUE)[]
+after_1$`none` <- 0
+after_1$`single sample` <- 0
+
+after_1_hours <- data.frame("hours", 0,0,0,0,0,0,0)
+names(after_1_hours) <- c("rn", "days", "hours", "months", "weeks", "years", "none", "single sample")
+after_2 <- rbind(after_1, after_1_hours)
+
+after_3 <- as.xtabs(after_2)
+
+after_df1 <- as.data.frame(after_3)
+colnames(after_df1) <- c("Sampling_Duration_Before", "ProximateEvent_Duration", "Freq")
+after_df1$Sampling_Duration_Before = factor(after_df1$Sampling_Duration_Before,levels(after_df1$Sampling_Duration_Before)[c(3,4,7,1,5,2,6)])
+after_df1$ProximateEvent_Duration = factor(after_df1$ProximateEvent_Duration,levels(after_df1$ProximateEvent_Duration)[c(6,7,2,1,4,3,5)])
+
+ggplot(after_df1, aes(Sampling_Duration_Before, ProximateEvent_Duration)) +
+  geom_tile(aes(fill = Freq), colour = "black") +
+  scale_fill_gradient(low = "white", high = "steelblue") + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+``` 
 
 #### Count Summaries:
 
