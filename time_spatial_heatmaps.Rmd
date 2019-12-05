@@ -19,7 +19,8 @@ library(magrittr)
 library(stringr)
 library(lubridate)
 library(here)
-
+library(ggplot2)
+library(tigerstats)
 
 EEdata <- read_excel(here::here("/data/CleanedExtremeEventsData_8Nov2019.xlsx"), sheet = 1)
 
@@ -61,7 +62,10 @@ EEdata$ProximateEvent_Duration <- factor(EEdata$ProximateEvent_Duration)
 spatial<- xtabs(~ Study_SpatialExtent + ProximateEvent_SpatialExtent, data = EEdata)
 spatial
 
-#table(EEdata$Study_SpatialExtent, EEdata$ProximateEvent_SpatialExtent)
+rowPerc(spatial)
+
+spatial1<-table(EEdata$Study_SpatialExtent, EEdata$ProximateEvent_SpatialExtent)
+spatial2<-prop.table(table(EEdata$Study_SpatialExtent, EEdata$ProximateEvent_SpatialExtent))
 
 ###rows and columns are not independent
 #chisq.test(EEdata$Study_SpatialExtent, EEdata$ProximateEvent_SpatialExtent)
@@ -132,11 +136,6 @@ after1
 ```
 
 #### Heat Maps: 
-
-```{r}
-library(ggplot2)
-
-```
 
 *Study Spatial Extent vs. Event Spatial Extent:*
 ```{r sample1,  fig.width = 12, fig.height = 12}
