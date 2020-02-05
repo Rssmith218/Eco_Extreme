@@ -102,7 +102,7 @@ spatial_prop
 #spatial1<-table(EEdata$Study_SpatialExtent, EEdata$ProximateEvent_SpatialExtent)
 #spatial2<-prop.table(table(EEdata$Study_SpatialExtent, EEdata$ProximateEvent_SpatialExtent))
 #rowPerc(spatial1)
-write.csv(spatial2, "spatial_extent_study.csv")
+write.csv(spatial_prop, "spatial_extent_study.csv")
 ###rows and columns are not independent
 #chisq.test(EEdata$Study_SpatialExtent, EEdata$ProximateEvent_SpatialExtent)
 ```
@@ -116,7 +116,7 @@ sample<- xtabs(~ SamplingUnit_SpatialExtent + ProximateEvent_SpatialExtent, data
 sample
 sample_prop <- prop.table(sample)
 sample_prop
-write.csv(sample1, "spatial_extent_sample.csv")
+write.csv(sample_prop, "spatial_extent_sample.csv")
 #table(EEunique$SamplingUnit_SpatialExtent, EEunique$ProximateEvent_SpatialExtent)
 ###rows and columns are not independent
 #chisq.test(EEunique$SamplingUnit_SpatialExtent, EEunique$ProximateEvent_SpatialExtent)
@@ -130,7 +130,7 @@ write.csv(sample1, "spatial_extent_sample.csv")
 before1<- xtabs(~ Sampling_Duration_Before + ProximateEvent_Duration, data = EEunique)
 before1
 before_prop<- prop.table(before1)
-write.csv(before2, "duration_before.csv")
+write.csv(before_prop, "duration_before.csv")
 #before<- table(EEunique$Sampling_Duration_Before, EEunique$ProximateEvent_Duration)
 #before
 ###rows and columns are not independent
@@ -146,7 +146,7 @@ write.csv(before2, "duration_before.csv")
 during1<- xtabs(~ Sampling_Duration_During + ProximateEvent_Duration, data = EEunique)
 during1
 during_prop<- prop.table(during1)
-write.csv(during2, "duration_during.csv")
+write.csv(during_prop, "duration_during.csv")
 #during<- table(EEunique$Sampling_Duration_During, EEunique$ProximateEvent_Duration)
 #during
 ###rows and columns are not independent
@@ -162,7 +162,7 @@ write.csv(during2, "duration_during.csv")
 after1<- xtabs(~ Sampling_Duration_After + ProximateEvent_Duration, data = EEunique)
 after1
 after_prop<- prop.table(after1)
-write.csv(after2, "duration_after.csv")
+write.csv(after_prop, "duration_after.csv")
 #after<-table(EEunique$Sampling_Duration_After, EEunique$ProximateEvent_Duration)
 #after
 ###rows and columns are not independent
