@@ -60,7 +60,7 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
     }
   }
 }
-EEdata <- read_excel(here::here("/data/CleanedExtremeEventsData_8Nov2019.xlsx"), sheet = 1)
+EEdata <- read_excel("CleanedExtremeEventsData_8Nov2019.xlsx", sheet = 1)
 ###convert all spatial/temporal variables to factors
 EEdata$Sampling_Duration_After <- factor(EEdata$Sampling_Duration_After)
 EEdata$Sampling_Duration_Before <- factor(EEdata$Sampling_Duration_Before)
@@ -135,15 +135,15 @@ event.spatial.c$Sample.Scale <- "Proximate.Event.Extent"
 study.spatial.c<-plyr::rename(study.spatial.c,c('Study_SpatialExtent'='Spatial.Scale'))
 study.spatial.c$Sample.Scale <- "Study.Extent"
 
-##THE NA VALUES IN EVENT.SPATIAL CAUSE ISSUES FOR SORTING FACTORS TO GRAPH - FOR NOW I HAVE REPLACED WITH MISSING DATA
-event.spatial.c$Spatial.Scale <- as.character(event.spatial.c$Spatial.Scale)
-event.spatial.c$Spatial.Scale[is.na(event.spatial.c$Spatial.Scale)] <- "Missing Data"
-event.spatial.c$Spatial.Scale <- as.factor(event.spatial.c$Spatial.Scale)
+# ##THE NA VALUES IN EVENT.SPATIAL CAUSE ISSUES FOR SORTING FACTORS TO GRAPH - FOR NOW I HAVE REPLACED WITH MISSING DATA
+# event.spatial.c$Spatial.Scale <- as.character(event.spatial.c$Spatial.Scale)
+# event.spatial.c$Spatial.Scale[is.na(event.spatial.c$Spatial.Scale)] <- "Missing Data"
+# event.spatial.c$Spatial.Scale <- as.factor(event.spatial.c$Spatial.Scale)
 
 ##combine data
 spatial.data<-rbind(study.spatial.c, event.spatial.c, sample.spatial.c)
 ##change factor order
-spatial.data$Spatial.Scale <- factor(spatial.data$Spatial.Scale, levels = c("undefined", "<1 sq m", "1-10 sq m", "10-100 sq m", "100-1000 sq m", ">1000 sq m", "Regional/Continental", "Missing Data"))
+spatial.data$Spatial.Scale <- factor(spatial.data$Spatial.Scale, levels = c("undefined", "<1 sq m", "1-10 sq m", "10-100 sq m", "100-1000 sq m", ">1000 sq m", "Regional/Continental"))
 ####ggplot
 spatial.plot<- ggplot(spatial.data, aes(x= Spatial.Scale, y =n , fill = Sample.Scale)) + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 

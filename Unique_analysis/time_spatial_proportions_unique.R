@@ -62,7 +62,7 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
     }
   }
 }
-EEdata <- read_excel(here::here("/data/CleanedExtremeEventsData_8Nov2019.xlsx"), sheet = 1)
+EEdata <- read_excel("CleanedExtremeEventsData_8Nov2019.xlsx", sheet = 1)
 ###convert all spatial/temporal variables to factors
 EEdata$Sampling_Duration_After <- factor(EEdata$Sampling_Duration_After)
 EEdata$Sampling_Duration_Before <- factor(EEdata$Sampling_Duration_Before)
