@@ -188,9 +188,15 @@ colnames(spatial_df1) <- c("Study_SpatialExtent", "ProximateEvent_SpatialExtent"
 spatial_df1$Study_SpatialExtent = factor(spatial_df1$Study_SpatialExtent,levels(spatial_df1$Study_SpatialExtent)[c(7,1,3:5,2,6)])
 spatial_df1$ProximateEvent_SpatialExtent = factor(spatial_df1$ProximateEvent_SpatialExtent,levels(spatial_df1$ProximateEvent_SpatialExtent)[c(6,1,7,3,4,2,5)])
 
+levels(spatial_df1$Study_SpatialExtent) <- c("Undefined", "<1 sq m", "1-10 sq m", "10-100 sq m", "100-1000 sq m", ">1000 sq m", "Regional/Continental")
+levels(spatial_df1$ProximateEvent_SpatialExtent) <- c("Undefined", "<1 sq m", "1-10 sq m", "10-100 sq m", "100-1000 sq m", ">1000 sq m", "Regional/Continental")
+
+
 spatial_plot <- ggplot(spatial_df1, aes(Study_SpatialExtent, ProximateEvent_SpatialExtent)) +
   geom_tile(aes(fill = Freq), colour = "black") +
-  scale_fill_gradient(low = "white", high = "steelblue") + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  scale_fill_gradient(low = "white", high = "steelblue") + theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  xlab("Study Spatial Extent") +
+  ylab("Event Spatial Extent")
 ```
 
 *Sampling Unit Spatial Extent vs. Event Spatial Extent - as a proportion:*
@@ -208,9 +214,15 @@ colnames(sample_df1) <- c("SamplingUnit_SpatialExtent", "ProximateEvent_SpatialE
 sample_df1$SamplingUnit_SpatialExtent = factor(sample_df1$SamplingUnit_SpatialExtent,levels(sample_df1$SamplingUnit_SpatialExtent)[c(7,1,3:5,2,6)])
 sample_df1$ProximateEvent_SpatialExtent = factor(sample_df1$ProximateEvent_SpatialExtent,levels(sample_df1$ProximateEvent_SpatialExtent)[c(6,1,7,3,4,2,5)])
 
+levels(sample_df1$SamplingUnit_SpatialExtent) <- c("Undefined", "<1 sq m", "1-10 sq m", "10-100 sq m", "100-1000 sq m", ">1000 sq m", "Regional/Continental")
+levels(sample_df1$ProximateEvent_SpatialExtent) <- c("Undefined", "<1 sq m", "1-10 sq m", "10-100 sq m", "100-1000 sq m", ">1000 sq m", "Regional/Continental")
+
+
 sample_plot <- ggplot(sample_df1, aes(SamplingUnit_SpatialExtent, ProximateEvent_SpatialExtent)) +
   geom_tile(aes(fill = Freq), colour = "black") +
-  scale_fill_gradient(low = "white", high = "steelblue") + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  scale_fill_gradient(low = "white", high = "steelblue") + theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  xlab("Sampling Unit Spatial Extent") +
+  ylab("Event Spatial Extent")
 ```
 
 ```{r spatial sampling,  fig.width = 12, fig.height = 12}
@@ -237,9 +249,14 @@ colnames(before_df1) <- c("Sampling_Duration_Before", "ProximateEvent_Duration",
 before_df1$Sampling_Duration_Before = factor(before_df1$Sampling_Duration_Before,levels(before_df1$Sampling_Duration_Before)[c(3,4,7,1,5,2,6)])
 before_df1$ProximateEvent_Duration = factor(before_df1$ProximateEvent_Duration,levels(before_df1$ProximateEvent_Duration)[c(6,7,2,1,4,3,5)])
 
+levels(before_df1$Sampling_Duration_Before) <- c("None", "Single Sample", "Hours", "Days", "Weeks", "Months", "Years")
+levels(before_df1$ProximateEvent_Duration) <- c("None", "Single Sample", "Hours", "Days", "Weeks", "Months", "Years")
+
 before_plot <- ggplot(before_df1, aes(Sampling_Duration_Before, ProximateEvent_Duration)) +
   geom_tile(aes(fill = Freq), colour = "black") +
-  scale_fill_gradient(low = "white", high = "steelblue") + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  scale_fill_gradient(low = "white", high = "steelblue") + theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  xlab("Sampling Duration Before Event") +
+  ylab("Event Duration")
 ```  
   
 *Sampling Duration During vs. Event Duration - as a proportion:*  
@@ -258,9 +275,15 @@ colnames(during_df1) <- c("Sampling_Duration_During", "ProximateEvent_Duration",
 during_df1$Sampling_Duration_During = factor(during_df1$Sampling_Duration_During,levels(during_df1$Sampling_Duration_During)[c(4,5,2,1,6,3,7)])
 during_df1$ProximateEvent_Duration = factor(during_df1$ProximateEvent_Duration,levels(during_df1$ProximateEvent_Duration)[c(6,7,2,1,4,3,5)])
 
+levels(during_df1$Sampling_Duration_During) <- c("None", "Single Sample", "Hours", "Days", "Weeks", "Months", "Years")
+levels(during_df1$ProximateEvent_Duration) <- c("None", "Single Sample", "Hours", "Days", "Weeks", "Months", "Years")
+
+
 during_plot <- ggplot(during_df1, aes(Sampling_Duration_During, ProximateEvent_Duration)) +
   geom_tile(aes(fill = Freq), colour = "black") +
-  scale_fill_gradient(low = "white", high = "steelblue") + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  scale_fill_gradient(low = "white", high = "steelblue") + theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  xlab("Sampling Duration During Event") +
+  ylab("Event Duration")
 ``` 
   
 *Sampling Duration After vs. Event Duration - as a proportion:*
@@ -280,12 +303,18 @@ after_3 <- as.xtabs(after_2)
 
 after_df1 <- as.data.frame(after_3)
 colnames(after_df1) <- c("Sampling_Duration_After", "ProximateEvent_Duration", "Freq")
-after_df1$Sampling_Duration_Before = factor(after_df1$Sampling_Duration_After,levels(after_df1$Sampling_Duration_After)[c(3,4,7,1,5,2,6)])
+after_df1$Sampling_Duration_After = factor(after_df1$Sampling_Duration_After,levels(after_df1$Sampling_Duration_After)[c(3,4,7,1,5,2,6)])
 after_df1$ProximateEvent_Duration = factor(after_df1$ProximateEvent_Duration,levels(after_df1$ProximateEvent_Duration)[c(6,7,2,1,4,3,5)])
+
+levels(after_df1$Sampling_Duration_After) <- c("None", "Single Sample", "Hours", "Days", "Weeks", "Months", "Years")
+levels(after_df1$ProximateEvent_Duration) <- c("None", "Single Sample", "Hours", "Days", "Weeks", "Months", "Years")
+
 
 after_plot <- ggplot(after_df1, aes(Sampling_Duration_After, ProximateEvent_Duration)) +
   geom_tile(aes(fill = Freq), colour = "black") +
-  scale_fill_gradient(low = "white", high = "steelblue") + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  scale_fill_gradient(low = "white", high = "steelblue") + theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  xlab("Sampling Duration After Event") +
+  ylab("Event Duration")
 ``` 
 
 ```{r sampling duration,  fig.width = 12, fig.height = 12}

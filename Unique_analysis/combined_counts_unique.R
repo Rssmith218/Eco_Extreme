@@ -110,12 +110,23 @@ time.data<-rbind(sample.after.c, sample.during.c, sample.before.c,event.duration
 ##change factor order
 time.data$Time.Scale <- factor(time.data$Time.Scale, levels = c("none", "single sample", "hours", "days", "weeks", "months", "years"))
 time.data$Sample.Scale <- factor(time.data$Sample.Scale, levels = c("Proximate.Event.Duration", "Sample.Duration.Before", "Sample.Duration.During", "Sample.Duration.After"))
+
+#rename factors for plot
+levels(time.data$Sample.Scale) <- c("Event Duration", "Sample Duration Before", "Sample Duration During", "Sample Duration After")
+levels(time.data$Time.Scale) <- c("None", "Single Sample", "Hours", "Days", "Weeks", "Months", "Years")
 ###ggplot
 time.plot<- ggplot(time.data, aes(x= Time.Scale, y =n , fill = Sample.Scale)) + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
   geom_col(position = position_dodge2(width = 0.9, preserve = "single")) +
-  theme(legend.justification = c(0,1),
-        legend.position = c(0,1))
+  scale_y_continuous(expand = c(0,0), limits = c(0,30)) +
+  xlab("Time Scale") + ylab("Number of Studies") +
+  theme_bw() + 
+  theme(legend.justification = c(0.05,.98),
+        legend.position = c(0.05,.98),
+        legend.title = element_blank()) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        axis.text = element_text(color = "black")) 
+  
 time.plot
 ##Sample spatial scale:   
 sample.spatial.c<-EEunique %>%
@@ -144,12 +155,23 @@ study.spatial.c$Sample.Scale <- "Study.Extent"
 spatial.data<-rbind(study.spatial.c, event.spatial.c, sample.spatial.c)
 ##change factor order
 spatial.data$Spatial.Scale <- factor(spatial.data$Spatial.Scale, levels = c("undefined", "<1 sq m", "1-10 sq m", "10-100 sq m", "100-1000 sq m", ">1000 sq m", "Regional/Continental"))
+#rename factors for plot
+levels(spatial.data$Spatial.Scale) <- c("Undefined", "<1 sq m", "1-10 sq m", "10-100 sq m", "100-1000 sq m", ">1000 sq m", "Regional/Continental")
+spatial.data$Sample.Scale <- as.factor(spatial.data$Sample.Scale)
+levels(spatial.data$Sample.Scale) <- c("Event Extent", "Sample Unit Extent", "Study Extent")
+
 ####ggplot
 spatial.plot<- ggplot(spatial.data, aes(x= Spatial.Scale, y =n , fill = Sample.Scale)) + 
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
   geom_col(position = position_dodge2(width = 0.9, preserve = "single")) +
-  theme(legend.justification = c(0,1),
-        legend.position = c(0,1))
+  scale_y_continuous(expand = c(0,0), limits = c(0,30)) +
+  xlab("Spatial Scale") + ylab("Number of Studies") +
+  theme_bw() + 
+  theme(legend.justification = c(0.05,.98),
+        legend.position = c(0.05,.98),
+        legend.title = element_blank()) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        axis.text = element_text(color = "black")) 
+
 spatial.plot
 
 ##combined plot
