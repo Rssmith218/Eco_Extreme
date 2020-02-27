@@ -181,7 +181,7 @@ spatial.plot
 
 ####Duration Category Counts:
 
-duration<-EEdata$Duration_Category
+duration<-EEunique$Duration_Category
 
 duration.c<-duration %>%
   tally()
