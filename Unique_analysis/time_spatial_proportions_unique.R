@@ -4,10 +4,7 @@ author: "Rachel Smith & Brandon Sansom"
 date: "Update on 12/04/2019"
 output: github_document
 ---
-  
-  ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, echo = F, message = F, error = F, warning = F)
-```
+
 
 ### Exploratory plots of space/time variables: 
 
@@ -62,7 +59,9 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
     }
   }
 }
-EEdata <- read_excel("CleanedExtremeEventsData_8Nov2019.xlsx", sheet = 1)
+
+EEdata <- read_excel(here::here("/data/CleanedExtremeEventsData_8Nov2019.xlsx"), sheet = 1)
+
 ###convert all spatial/temporal variables to factors
 EEdata$Sampling_Duration_After <- factor(EEdata$Sampling_Duration_After)
 EEdata$Sampling_Duration_Before <- factor(EEdata$Sampling_Duration_Before)
@@ -71,6 +70,7 @@ EEdata$SamplingUnit_SpatialExtent <- factor(EEdata$SamplingUnit_SpatialExtent)
 EEdata$Study_SpatialExtent <- factor(EEdata$Study_SpatialExtent)
 EEdata$ProximateEvent_SpatialExtent <- factor(EEdata$ProximateEvent_SpatialExtent)
 EEdata$ProximateEvent_Duration <- factor(EEdata$ProximateEvent_Duration)
+
 ###look at factor levels:
 #unique(EEdata$Sampling_Duration_After) ##years, months, none, weeks, single sample, days
 #unique(EEdata$Sampling_Duration_Before)##years, months, none, weeks, single sample, days
@@ -84,14 +84,14 @@ EEdata$ProximateEvent_Duration <- factor(EEdata$ProximateEvent_Duration)
 EEunique <- {EEdata %>%
     distinct(UniqueAccession, .keep_all = T)
 }
-```
+
 
 #### Contingency tables:
 
-*Study Spatial Extent vs. Event Spatial Extent:*
-  
-  Here, rows are Study Spatial Extent and columns are Event Spatial extent.
-```{r spatial}
+#Study Spatial Extent vs. Event Spatial Extent:
+ 
+#Here, rows are Study Spatial Extent and columns are Event Spatial extent.
+
 ###https://www.datacamp.com/community/tutorials/contingency-tables-r
 ####here the rows are Study Spatial extent and and columns are Event Spatial extent
 ###We can also turn these into proportions/do a chi square test
