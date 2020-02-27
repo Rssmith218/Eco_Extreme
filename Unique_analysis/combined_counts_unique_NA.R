@@ -183,14 +183,19 @@ spatial.plot
 
 duration<-EEunique$Duration_Category
 
+
 duration.c<-duration %>%
-  tally()
+  tally() 
 
 duration.c<-as.data.frame(duration.c)
-duration.c$X<-factor(duration.c$X, levels = c("During", "After", "Before+During", "During+After", "Before+After", "Before+During+After"))
+
+duration.p<-duration.c%>% 
+  mutate(prop = Freq/sum(Freq))
+
+duration.p$X<-factor(duration.c$X, levels = c("During", "After", "Before+During", "During+After", "Before+After", "Before+During+After"))
 
 ####ggplot
-dur.cat.plot<- ggplot(duration.c, aes(x= X, y =Freq)) + 
+dur.cat.plot<- ggplot(duration.p, aes(x= X, y =Freq)) + 
   geom_col(position = position_dodge2(width = 0.9, preserve = "single")) +
   xlab("Duration Category") + ylab("Number of Studies") +
   theme_bw() +
@@ -200,6 +205,8 @@ dur.cat.plot<- ggplot(duration.c, aes(x= X, y =Freq)) +
 pdf("duration.plot.pdf")
 dur.cat.plot
 dev.off()
+
+write.csv(duration.p, "duration.prop.csv")
 
 
 ##combined plot
