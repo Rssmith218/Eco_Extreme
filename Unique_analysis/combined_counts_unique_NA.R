@@ -118,16 +118,18 @@ levels(time.data$Time.Scale) <- c("None", "Single Sample", "Hours", "Days", "Wee
 
 ###ggplot
 time.plot<- ggplot(time.data, aes(x= Time.Scale, y =n , fill = Sample.Scale)) + 
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
   geom_col(position = position_dodge2(width = 0.9, preserve = "single")) +
   scale_y_continuous(expand = c(0,0), limits = c(0,30)) +
   xlab("Time Scale") + ylab("Number of Studies") +
   theme_bw() + 
   theme(legend.justification = c(0.05,.98),
         legend.position = c(0.05,.98),
-        legend.title = element_blank()) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
-        axis.text = element_text(color = "black")) 
+        legend.title = element_blank()) + theme(axis.text = element_text(size = 12), axis.title.x= element_text(size = 16),
+                                               axis.title.y = element_text(size = 16), plot.title = element_text(size = 22, hjust = .5, face = "bold"),
+                                               strip.text = element_text(size=16), legend.text=element_text(size=10),
+                                               axis.text.x = element_text(angle = 45, hjust = 1, color = "black", size = 14),
+                                               axis.text.y = element_text(color = "black", size = 14),
+                                               panel.grid.major = element_blank(), panel.grid.minor = element_blank())
   
 time.plot
 
@@ -175,9 +177,22 @@ spatial.plot<- ggplot(spatial.data, aes(x= Spatial.Scale, y =n , fill = Sample.S
         legend.position = c(0.05,.98),
         legend.title = element_blank()) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
-        axis.text = element_text(color = "black")) 
+        axis.text = element_text(color = "black")) + theme(axis.text = element_text(size = 12), axis.title.x= element_text(size = 16),
+                                                           axis.title.y = element_text(size = 16), plot.title = element_text(size = 22, hjust = .5, face = "bold"),
+                                                           strip.text = element_text(size=16), legend.text=element_text(size=10),
+                                                           axis.text.x = element_text(angle = 45, hjust = 1, color = "black", size = 14),
+                                                           axis.text.y = element_text(color = "black", size = 14),
+                                                           panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+
 
 spatial.plot
+
+library(patchwork)
+
+pdf("Figure1.pdf", height = 5, width = 10)
+spatial.plot + time.plot
+dev.off()
+
 
 ####Duration Category Counts:
 
@@ -209,7 +224,8 @@ dev.off()
 write.csv(duration.p, "duration.prop.csv")
 
 
+
 ##combined plot
-multiplot(time.plot, spatial.plot, cols = 2)
+#multiplot(time.plot, spatial.plot, cols = 2)
 
 ```
