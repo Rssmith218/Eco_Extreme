@@ -289,7 +289,7 @@ multiplot(before_plot, during_plot, after_plot, cols = 3)
 #### Count Summaries:
 
 *Study Spatial Extent + Event Spatial Extent:*
-  ```{r spatial extent,  fig.width = 10, fig.height = 5}
+```{r spatial extent,  fig.width = 10, fig.height = 5}
 study.spatial.c<-EEdata %>%
   group_by(Study_SpatialExtent) %>%
   tally()
@@ -303,7 +303,7 @@ multiplot(s1, s2, cols = 2)
 
 *Sampling Unit Spatial Extent vs. Event Spatial Extent:*
   
-  ```{r sample extent,  fig.width = 10, fig.height = 5}
+```{r sample extent,  fig.width = 10, fig.height = 5}
 sample.spatial.c<-EEdata %>%
   group_by(SamplingUnit_SpatialExtent) %>%
   tally()
@@ -314,7 +314,7 @@ multiplot(s3, s2, cols = 2)
 
 *Sampling Duration Before vs. Event Duration:*
   
-  ```{r sample before,  fig.width = 10, fig.height = 5}
+```{r sample before,  fig.width = 10, fig.height = 5}
 sample.before.c<-EEdata %>%
   group_by(Sampling_Duration_Before) %>%
   tally()
@@ -328,7 +328,7 @@ multiplot(s4, s5, cols = 2)
 
 *Sampling Duration During vs. Event Duration:*
   
-  ```{r sample during,  fig.width = 10, fig.height = 5}
+```{r sample during,  fig.width = 10, fig.height = 5}
 sample.during.c<-EEdata %>%
   group_by(Sampling_Duration_During) %>%
   tally()
@@ -339,7 +339,7 @@ multiplot(s6, s5, cols = 2)
 
 *Sampling Duration After vs. Event Duration:*
   
-  ```{r sample after,  fig.width = 10, fig.height = 5}
+```{r sample after,  fig.width = 10, fig.height = 5}
 sample.after.c<-EEdata %>%
   group_by(Sampling_Duration_After) %>%
   tally()
