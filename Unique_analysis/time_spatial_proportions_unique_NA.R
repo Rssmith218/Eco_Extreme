@@ -96,6 +96,9 @@ EEunique <- {EEdata %>%
 ###We can also turn these into proportions/do a chi square test
 spatial<- xtabs(~ Study_SpatialExtent + ProximateEvent_SpatialExtent, data = EEunique)
 spatial
+
+write.csv(spatial, "spatial.test.csv")
+
 spatial_prop<-prop.table(spatial)
 spatial_prop
 #spatial1<-table(EEdata$Study_SpatialExtent, EEdata$ProximateEvent_SpatialExtent)
@@ -113,6 +116,8 @@ write.csv(spatial_prop, "spatial_extent_study.csv")
 ```{r sample}
 sample<- xtabs(~ SamplingUnit_SpatialExtent + ProximateEvent_SpatialExtent, data = EEunique)
 sample
+
+write.csv(sample, "sample.test.csv")
 sample_prop <- prop.table(sample)
 sample_prop
 write.csv(sample_prop, "spatial_extent_sample.csv")
