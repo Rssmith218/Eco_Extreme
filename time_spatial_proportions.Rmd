@@ -92,6 +92,8 @@ EEdata$ProximateEvent_Duration <- factor(EEdata$ProximateEvent_Duration)
 ###We can also turn these into proportions/do a chi square test
 spatial<- xtabs(~ Study_SpatialExtent + ProximateEvent_SpatialExtent, data = EEdata)
 spatial
+write.csv(spatial, "spatial.test.csv")
+
 spatial_prop<-prop.table(spatial)
 spatial_prop
 #spatial1<-table(EEdata$Study_SpatialExtent, EEdata$ProximateEvent_SpatialExtent)
