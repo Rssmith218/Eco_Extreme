@@ -1,0 +1,8 @@
+"","<1 sq m",">1000 sq m","10-100 sq m","100-1000 sq m","Regional/Continental"
+"<1 sq m",0,1,0,0,0
+">1000 sq m",0,19,0,0,9
+"1-10 sq m",1,1,0,0,2
+"10-100 sq m",0,2,3,1,0
+"100-1000 sq m",0,2,0,0,2
+"Regional/Continental",0,1,0,0,7
+"undefined",0,0,0,0,2

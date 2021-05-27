@@ -1,0 +1,8 @@
+,<1 sq m,>1000 sq m,10-100 sq m,100-1000 sq m,Regional/Continental,,Sum of matches
+<1 sq m,1,10,0,0,6,,7
+>1000 sq m,0,3,0,0,3,,53
+1-10 sq m,0,1,2,1,7,,0.132075472
+10-100 sq m,0,2,1,0,1,,
+100-1000 sq m,0,6,0,0,1,,
+Regional/Continental,0,0,0,0,2,,
+undefined,0,4,0,0,2,,
