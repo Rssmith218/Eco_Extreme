@@ -104,7 +104,7 @@ before1
 
 *Sampling Duration During vs. Event Duration:*
   
-  Here, rows are Sampling Duration During and columns are Event Duration extent.
+Here, rows are Sampling Duration During and columns are Event Duration extent.
 
 ```{r during}
 
@@ -153,16 +153,20 @@ ggplot(spatial_df, aes(Study_SpatialExtent, ProximateEvent_SpatialExtent)) +
 Here, bubbles are the number of effect sizes, not the proportion; heat maps in previous version of figure were proportions, not raw numbers, see "time_spatial_proportions.Rmd." 
 
 ```{r}
+spatial_df <- as.data.frame(spatial)
 
 ###Area of circle scaled to count
 spatial.bub.plot<- ggplot(spatial_df, aes(x= Study_SpatialExtent, y =ProximateEvent_SpatialExtent, size = Freq)) + geom_point() + theme_bw() + 
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
-        axis.text = element_text(color = "black")) + theme(axis.text = element_text(size = 12), axis.title.x= element_text(size = 16),
-                                                           axis.title.y = element_text(size = 16), plot.title = element_text(size = 22, hjust = .5, face = "bold"),
-                                                           strip.text = element_text(size=16), legend.text=element_text(size=10),
-                                                           axis.text.x = element_text(angle = 45, hjust = 1, color = "black", size = 14),
-                                                           axis.text.y = element_text(color = "black", size = 14),
-                                                           panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + ylab("Event spatial extent") + xlab("Study spatial extent") +  scale_size_area() + labs(size = "Number of responses")
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, color = "black", size = 14),  axis.title.x= element_text(size = 16),
+        axis.title.y = element_text(size = 16), 
+        plot.title = element_text(size = 22, hjust = .5, face = "bold"),
+        strip.text = element_text(size=16), 
+        legend.text=element_text(size=10),
+        axis.text.y = element_text(color = "black", size = 14),
+        panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
+  ylab("Event spatial extent") + xlab("Study spatial extent") +scale_size_area(breaks = c(0, 20, 40, 60, 80))+ labs(size = "Number of responses")
+
+# scale_size_area()
 
 
 ```
@@ -189,6 +193,8 @@ ggplot(sample_df, aes(SamplingUnit_SpatialExtent, ProximateEvent_SpatialExtent))
 *Sampling Unit Spatial Extent vs. Event Spatial Extent, as bubble plot*
 
 ```{r}
+sample_df <- as.data.frame(sample)
+
 sample.bub.plot<- ggplot(sample_df, aes(x= SamplingUnit_SpatialExtent, y =ProximateEvent_SpatialExtent, size = Freq)) + geom_point() + theme_bw() + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         axis.text = element_text(color = "black")) + theme(axis.text = element_text(size = 12), axis.title.x= element_text(size = 16),
@@ -196,8 +202,9 @@ sample.bub.plot<- ggplot(sample_df, aes(x= SamplingUnit_SpatialExtent, y =Proxim
                                                            strip.text = element_text(size=16), legend.text=element_text(size=10),
                                                            axis.text.x = element_text(angle = 45, hjust = 1, color = "black", size = 14),
                                                            axis.text.y = element_text(color = "black", size = 14),
-                                                           panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + ylab("Event spatial extent") + xlab("Sampling unit spatial extent") +  scale_size_area() + labs(size = "Number of responses")
+                                                           panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + ylab("Event spatial extent") + xlab("Sampling unit spatial extent") + scale_size_area(breaks = c(0, 20, 40, 60, 80)) + labs(size = "Number of responses")
 
+ scale_size_area()
 
 
 
